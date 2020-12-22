@@ -53,7 +53,7 @@ class Grid:
             )
 
         for s in self.objects:
-            self.surf.blit(s[0], (s[1][0] + self.line_width, s[1][1] + self.line_width))
+            self.surf.blit(s[0], s[1])
 
     def get_cell_obj(self, cell):
         """
