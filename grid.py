@@ -15,9 +15,9 @@ class Grid:
         self.objects = []
         self.cell_objs_map = []
         for i in range(grid_size[0]):
-            cell_objs.append([])
+            self.cell_objs_map.append([])
             for j in range(grid_size[1]):
-                cell_objs[i].append([])
+                self.cell_objs_map[i].append([])
 
         self.surf = pg.Surface((self.total_size[0], self.total_size[1]))
         return
