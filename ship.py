@@ -1,5 +1,8 @@
-import pygame as pg
 import copy as copy
+import pygame as pg
+from typing import Tuple
+
+from common_types import *
 
 
 class Ship:
@@ -11,13 +14,13 @@ class Ship:
     HOR = 0
     VER = 1
 
-    def __init__(self, size, cell_size, colour):
+    def __init__(self, size: Size2d, cell_size: Size2d, colour: Tuple[int, int, int]):
         self.size = size
         self.colour = colour
         self.cell_size = cell_size
 
         self.surf = pg.Surface(
-            (self.size[0] * self.cell_size[0], self.size[1] * self.cell_size[1])
+            (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
         )
         return
 
@@ -27,7 +30,7 @@ class Ship:
             self.colour,
             (
                 (0, 0),
-                (self.size[0] * self.cell_size[0], self.size[1] * self.cell_size[1]),
+                (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h),
             ),
         )
         return
