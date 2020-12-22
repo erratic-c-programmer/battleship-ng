@@ -37,6 +37,7 @@ class Grid:
             self.line_width + cell_coord[1] * (self.cell_size[1] + self.line_width),
         )
 
+
     def add_obj(self, newsurf, cell_coord, box_size):
         self.objects.append((newsurf, self.cell2surf(cell_coord), box_size))
         for i in range(cell_coord[0], cell_coord[0] + box_size[0]):
@@ -48,6 +49,7 @@ class Grid:
     def move_obj(self, obj_id, new_cell_pos):
         self.objects[obj_id][2] = self.cell2surf(new_cell_pos)
         return
+
 
     def draw(self):
         self.surf.fill(self.fill_colour)
