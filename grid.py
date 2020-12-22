@@ -43,7 +43,10 @@ class Grid:
             for j in range(cell_coord[1], cell_coord[1] + box_size[1]):
                 self.cell_objs_map[i][j].append(self.objcnt)
         self.objcnt += 1
+        return
 
+    def move_obj(self, obj_id, new_cell_pos):
+        self.objects[obj_id][2] = self.cell2surf(new_cell_pos)
         return
 
     def draw(self):
@@ -69,6 +72,8 @@ class Grid:
 
         for s in self.objects:
             self.surf.blit(s[0], s[1])
+
+        return
 
     def get_cell_obj(self, cell):
         """
