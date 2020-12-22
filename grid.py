@@ -9,10 +9,14 @@ class Grid:
         self.line_width = line_width
         self.line_colour = line_colour
         self.fill_colour = fill_colour
-        self.objcnt = 0  # No. of objects in the grid, also acts as ID==index for next obj
+        self.objcnt = (
+            0  # No. of objects in the grid, also acts as ID==index for next obj
+        )
 
-        self.total_size = ((grid_size[0] * (cell_size[0] + line_width) + line_width,
-                            grid_size[1] * (cell_size[1] + line_width) + line_width))
+        self.total_size = (
+            grid_size[0] * (cell_size[0] + line_width) + line_width,
+            grid_size[1] * (cell_size[1] + line_width) + line_width,
+        )
 
         self.objects = []
         self.cell_objs_map = []
@@ -28,8 +32,10 @@ class Grid:
         """
         Converts cell coordinates to surface coordinates
         """
-        return (self.line_width + cell_coord[0] * (self.cell_size[0] + self.line_width),
-                self.line_width + cell_coord[1] * (self.cell_size[1] + self.line_width))
+        return (
+            self.line_width + cell_coord[0] * (self.cell_size[0] + self.line_width),
+            self.line_width + cell_coord[1] * (self.cell_size[1] + self.line_width),
+        )
 
     def add_obj(self, newsurf, cell_coord, box_size):
         self.objects.append((newsurf, self.cell2surf(cell_coord), box_size))
@@ -45,14 +51,20 @@ class Grid:
 
         for i in range(0, self.total_size[0], self.cell_size[0] + self.line_width):
             pg.draw.line(
-                self.surf, self.line_colour, (i, 0), (i,
-                                                      self.total_size[1]), self.line_width
+                self.surf,
+                self.line_colour,
+                (i, 0),
+                (i, self.total_size[1]),
+                self.line_width,
             )
 
         for i in range(0, self.total_size[1], self.cell_size[1] + self.line_width):
             pg.draw.line(
-                self.surf, self.line_colour, (0, i), (
-                    self.total_size[0], i), self.line_width
+                self.surf,
+                self.line_colour,
+                (0, i),
+                (self.total_size[0], i),
+                self.line_width,
             )
 
         for s in self.objects:
