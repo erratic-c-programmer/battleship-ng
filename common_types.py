@@ -1,10 +1,11 @@
-import enum
+from dataclasses import dataclass
 
-class Coord(enum.Enum):
-    x: int
-    y: int
+@dataclass
+class Coord:
+    c: int
+    r: int
 
-
-class Size2d(enum.Enum):
+@dataclass
+class Size2d:
     w: int
     h: int
