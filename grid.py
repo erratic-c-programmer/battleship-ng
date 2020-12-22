@@ -46,8 +46,30 @@ class Grid:
         self.objcnt += 1
         return
 
-    def move_obj(self, obj_id, new_cell_pos):
-        self.objects[obj_id][2] = self.cell2surf(new_cell_pos)
+    def move_obj(self, obj_id, new_cell_coord):
+        self.objects[obj_id][2] = self.cell2surf(new_cell_coord)
+        return
+
+    def rearrange_obj_up(self, obj_id, cell_coord):
+        if obj_id in self.cell_objs_map[cell_coord[0]][cell_coord[1]]:
+            try:
+                i1 = self.objects.index(obj_id)
+                i2 = self.objects.index(obj_id - 1)
+                self.objects[i1]. self.objects[i2] = self.objects[i2], self.objects[i1]
+            except IndexError:
+                pass
+
+        return
+
+    def rearrange_obj_down(self, obj_id, cell_coord):
+        if obj_id in self.cell_objs_map[cell_coord[0]][cell_coord[1]]:
+            try:
+                i1 = self.objects.index(obj_id)
+                i2 = self.objects.index(obj_id + 1)
+                self.objects[i1]. self.objects[i2] = self.objects[i2], self.objects[i1]
+            except IndexError:
+                pass
+
         return
 
 
