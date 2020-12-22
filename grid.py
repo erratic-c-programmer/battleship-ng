@@ -1,6 +1,8 @@
 import pygame as pg
 import copy
 
+import common_types
+
 
 class Grid:
     def __init__(self, grid_size, cell_size, line_width, line_colour, fill_colour):
