@@ -7,20 +7,56 @@ class Grid:
         self.line_width = line_width
         self.line_colour = line_colour
         self.fill_colour = fill_colour
+        self.objcnt = 0 # No. of objects in the grid, also acts as ID==index for next obj
 
         self.total_size = ((grid_size[0] * (cell_size[0] + line_width) + line_width,
                             grid_size[1] * (cell_size[1] + line_width) + line_width))
 
+        self.objects = []
+        self.cell_objs_map = []
+        for i in range(grid_size[0]):
+            cell_objs.append([])
+            for j in range(grid_size[1]):
+                cell_objs[i].append([])
+
         self.surf = pg.Surface((self.total_size[0], self.total_size[1]))
+        return
+
+    @staticmethod
+    def cell2surf(cell_coord):
+        """
+        Converts cell coordinates to surface coordinates
+        """
+        return (line_width + cell_coord[0] * (cell_size[0] + line_width),
+                line_width + cell_coord[1] * (cell_size[1] + line_width))
+
+    def add_obj(self, newsurf, cell_coord, box_size):
+        self.objects.append((newsurf, cell2surf(cell_coord), box))
+        for i in range(cell_coord[0], cell_coord[0] + box_size[0]):
+            for j in range(cell_coord[1], cell_coord[1] + box_size[1]):
+                self.cell_objs_map[i][j].append(self.objcnt)
+        self.objcnt += 1
+
         return
 
     def draw(self):
         self.surf.fill(self.fill_colour)
 
         for i in range(0, self.total_size[0], self.cell_size[0] + self.line_width):
-            pg.draw.line(self.surf, self.line_col, (i, 0), (i, self.total_size[1]), self.line_width)
+            pg.draw.line(
+                self.surf, self.line_col, (i, 0), (i, self.total_size[1]), self.line_width
+            )
 
         for i in range(0, self.total_size[1], self.cell_size[1] + self.line_width):
-            pg.draw.line(self.surf, self.line_col, (0, i), (self.total_size[0], i), self.line_width)
+            pg.draw.line(
+                self.surf, self.line_col, (0, i), (self.total_size[0], i), self.line_width
+            )
 
-        return;
+        for s in self.objects:
+            self.surf.blit(s[0], s[1])
+
+    def get_cell_obj(self, cell):
+        """
+        Returns the IDs of objects which have parts in the cell, top-to-bottom
+        """
+        return reversed(self.cell_objs_map[cell[0]][cell[1]])
