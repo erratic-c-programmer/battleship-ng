@@ -54,7 +54,7 @@ class Grid:
         if obj_id in self.cell_objs_map[cell_coord[0]][cell_coord[1]]:
             try:
                 i1 = self.objects.index(obj_id)
-                i2 = self.objects.index(obj_id - 1)
+                i2 = self.objects.index(obj_id + 1)
                 self.objects[i1]. self.objects[i2] = self.objects[i2], self.objects[i1]
             except IndexError:
                 pass
@@ -65,7 +65,7 @@ class Grid:
         if obj_id in self.cell_objs_map[cell_coord[0]][cell_coord[1]]:
             try:
                 i1 = self.objects.index(obj_id)
-                i2 = self.objects.index(obj_id + 1)
+                i2 = self.objects.index(obj_id - 1)
                 self.objects[i1]. self.objects[i2] = self.objects[i2], self.objects[i1]
             except IndexError:
                 pass
