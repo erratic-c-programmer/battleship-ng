@@ -64,8 +64,8 @@ class Grid:
         TODO: optimise this maybe?
         """
         ret: Coord = Coord(0, 0)
-        cellcol: int = 0
-        cellrow: int = 0
+        cellcol: int = -1
+        cellrow: int = -1
 
         for i in range(self.line_width, self.total_size.w, self.cell_size.w + self.line_width):
             cellcol += 1

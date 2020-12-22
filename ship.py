@@ -28,7 +28,7 @@ class Ship:
         for i in range(self.cell_size.h):
             self.hitmap.append([])
             for j in range(self.cell_size.w):
-                self.hitmap[i][j] = False
+                self.hitmap[i].append(False)
         return
 
     def hit_tile(self, cell_coord: Coord) -> None:
