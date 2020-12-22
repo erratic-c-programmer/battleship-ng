@@ -1,108 +1,140 @@
-import pygame as pg
+from dataclasses import dataclass
+from typing import List, Tuple
 import copy
+import pygame as pg
+
+from common_types import *
+
+
+@dataclass
+class GridObj:
+    surf: pg.Surface
+    cell_coord: Coord
+    box_size: Size2d
 
 
 class Grid:
-    def __init__(self, grid_size, cell_size, line_width, line_colour, fill_colour):
-        self.grid_size = grid_size
-        self.cell_size = cell_size
-        self.line_width = line_width
-        self.line_colour = line_colour
-        self.fill_colour = fill_colour
-        self.objcnt = (
+    def __init__(
+        self,
+        grid_size: Size2d,
+        cell_size: Size2d,
+        line_width: int,
+        line_colour: Tuple[int, int, int],
+        fill_colour: Tuple[int, int, int],
+    ) -> None:
+        self.grid_size: Size2d = grid_size
+        self.cell_size: Size2d = cell_size
+        self.line_width: int = line_width
+        self.line_colour: Tuple[int, int, int] = line_colour
+        self.fill_colour: Tuple[int, int, int] = fill_colour
+
+        self.objcnt: int = (
             0  # No. of objects in the grid, also acts as ID==index for next obj
         )
 
-        self.total_size = (
-            grid_size[0] * (cell_size[0] + line_width) + line_width,
-            grid_size[1] * (cell_size[1] + line_width) + line_width,
+        self.total_size: Size2d = Size2d(
+            self.grid_size.w * (self.cell_size.w + self.line_width) + self.line_width,
+            self.grid_size.h * (self.cell_size.h + self.line_width) + self.line_width,
         )
 
-        self.objects = []
-        self.cell_objs_map = []
-        for i in range(grid_size[0]):
+        self.objects: List[GridObj] = []
+        self.cell_objs_map: List[List[List[int]]] = []
+        for i in range(grid_size.h):
             self.cell_objs_map.append([])
-            for j in range(grid_size[1]):
+            for _ in range(grid_size.w):
                 self.cell_objs_map[i].append([])
 
-        self.surf = pg.Surface((self.total_size[0], self.total_size[1]))
+        self.surf = pg.Surface((self.total_size.w, self.total_size.h))
         return
 
-    def cell2surf(self, cell_coord):
+    def cell2surf(self, cell_coord: Coord) -> Coord:
         """
         Converts cell coordinates to surface coordinates
         """
-        return (
-            self.line_width + cell_coord[0] * (self.cell_size[0] + self.line_width),
-            self.line_width + cell_coord[1] * (self.cell_size[1] + self.line_width),
+        ret: Coord = Coord(
+            (self.line_width + cell_coord.row * (self.cell_size.h + self.line_width)),
+            (self.line_width + cell_coord.col * (self.cell_size.w + self.line_width)),
         )
+        return ret
 
-
-    def add_obj(self, newsurf, cell_coord, box_size):
-        self.objects.append((newsurf, self.cell2surf(cell_coord), box_size))
-        for i in range(cell_coord[0], cell_coord[0] + box_size[0]):
-            for j in range(cell_coord[1], cell_coord[1] + box_size[1]):
+    def add_obj(self, obj: GridObj) -> None:
+        self.objects.append(obj)
+        for i in range(obj.cell_coord.row, obj.cell_coord.row + obj.box_size.h):
+            for j in range(obj.cell_coord.col, obj.cell_coord.row + obj.box_size.w):
                 self.cell_objs_map[i][j].append(self.objcnt)
         self.objcnt += 1
         return
 
-    def move_obj(self, obj_id, new_cell_coord):
-        self.objects[obj_id][2] = self.cell2surf(new_cell_coord)
+    def move_obj(self, obj_id: int, new_cell_coord: Coord) -> None:
+        self.objects[obj_id].cell_coord = self.cell2surf(new_cell_coord)
         return
 
-    def rearrange_obj_up(self, obj_id, cell_coord):
-        if obj_id in self.cell_objs_map[cell_coord[0]][cell_coord[1]]:
+    def rearrange_obj_up(self, obj_id: int, cell_coord: Coord) -> None:
+        if obj_id in self.cell_objs_map[cell_coord.row][cell_coord.col]:
             try:
-                i1 = self.objects.index(obj_id)
-                i2 = self.objects.index(obj_id - 1)
-                self.objects[i1]. self.objects[i2] = self.objects[i2], self.objects[i1]
+                i1: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id
+                )
+                i2: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id + 1
+                )
+                self.objects[i1], self.objects[i2] = self.objects[i2], self.objects[i1]
             except IndexError:
                 pass
 
         return
 
-    def rearrange_obj_down(self, obj_id, cell_coord):
-        if obj_id in self.cell_objs_map[cell_coord[0]][cell_coord[1]]:
+    def rearrange_obj_down(self, obj_id: int, cell_coord: Coord) -> None:
+        if obj_id in self.cell_objs_map[cell_coord.row][cell_coord.col]:
             try:
-                i1 = self.objects.index(obj_id)
-                i2 = self.objects.index(obj_id + 1)
-                self.objects[i1]. self.objects[i2] = self.objects[i2], self.objects[i1]
+                i1: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id
+                )
+                i2: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id - 1
+                )
+                self.objects[i1], self.objects[i2] = self.objects[i2], self.objects[i1]
             except IndexError:
                 pass
 
         return
 
-
-    def draw(self):
+    def draw(self) -> None:
         self.surf.fill(self.fill_colour)
 
-        for i in range(0, self.total_size[0], self.cell_size[0] + self.line_width):
+        for i in range(0, self.total_size.w, self.cell_size.w + self.line_width):
             pg.draw.line(
                 self.surf,
                 self.line_colour,
                 (i, 0),
-                (i, self.total_size[1]),
+                (i, self.total_size.h),
                 self.line_width,
             )
 
-        for i in range(0, self.total_size[1], self.cell_size[1] + self.line_width):
+        for i in range(0, self.total_size.h, self.cell_size.h + self.line_width):
             pg.draw.line(
                 self.surf,
                 self.line_colour,
                 (0, i),
-                (self.total_size[0], i),
+                (self.total_size.w, i),
                 self.line_width,
             )
 
         for s in self.objects:
-            self.surf.blit(s[0], s[1])
+            self.surf.blit(
+                s.surf,
+                (self.cell2surf(s.cell_coord).col, self.cell2surf(s.cell_coord).row),
+            )
 
         return
 
-    def get_cell_obj(self, cell):
+    def get_cell_obj(self, cell_coord: Coord):
         """
         Returns the IDs of objects which have parts in the cell, top-to-bottom
         """
-        ret = copy.copy(self.cell_objs_map[cell[0]][cell[1]])
+        ret = copy.copy(self.cell_objs_map[cell_coord.row][cell_coord.col])
         ret.reverse()
         return ret
+
+    def get_surface(self):
+        return copy.copy(self.surf)
