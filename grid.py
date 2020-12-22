@@ -128,7 +128,7 @@ class Grid:
 
         return
 
-    def get_cell_obj(self, cell_coord: Coord):
+    def get_cell_obj(self, cell_coord: Coord) -> List[int]:
         """
         Returns the IDs of objects which have parts in the cell, top-to-bottom
         """
@@ -136,5 +136,5 @@ class Grid:
         ret.reverse()
         return ret
 
-    def get_surface(self):
+    def get_surface(self) -> pg.Surface:
         return copy.copy(self.surf)
