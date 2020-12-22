@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import *
+from typing import List, Tuple
 import copy
 import pygame as pg
 
@@ -52,15 +52,15 @@ class Grid:
         Converts cell coordinates to surface coordinates
         """
         ret: Coord = Coord(
-            (self.line_width + cell_coord.r * (self.cell_size.h + self.line_width)),
-            (self.line_width + cell_coord.c * (self.cell_size.w + self.line_width)),
+            (self.line_width + cell_coord.row * (self.cell_size.h + self.line_width)),
+            (self.line_width + cell_coord.col * (self.cell_size.w + self.line_width)),
         )
         return ret
 
     def add_obj(self, obj: GridObj) -> None:
         self.objects.append(obj)
-        for i in range(obj.cell_coord.r, obj.cell_coord.r + obj.box_size.h):
-            for j in range(obj.cell_coord.c, obj.cell_coord.r + obj.box_size.w):
+        for i in range(obj.cell_coord.row, obj.cell_coord.row + obj.box_size.h):
+            for j in range(obj.cell_coord.col, obj.cell_coord.row + obj.box_size.w):
                 self.cell_objs_map[i][j].append(self.objcnt)
         self.objcnt += 1
         return
@@ -70,10 +70,14 @@ class Grid:
         return
 
     def rearrange_obj_up(self, obj_id: int, cell_coord: Coord) -> None:
-        if obj_id in self.cell_objs_map[cell_coord.r][cell_coord.c]:
+        if obj_id in self.cell_objs_map[cell_coord.row][cell_coord.col]:
             try:
-                i1: int = self.cell_objs_map[cell_coord.r][cell_coord.c].index(obj_id)
-                i2: int = self.cell_objs_map[cell_coord.r][cell_coord.c].index(obj_id + 1)
+                i1: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id
+                )
+                i2: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id + 1
+                )
                 self.objects[i1], self.objects[i2] = self.objects[i2], self.objects[i1]
             except IndexError:
                 pass
@@ -81,10 +85,14 @@ class Grid:
         return
 
     def rearrange_obj_down(self, obj_id: int, cell_coord: Coord) -> None:
-        if obj_id in self.cell_objs_map[cell_coord.r][cell_coord.c]:
+        if obj_id in self.cell_objs_map[cell_coord.row][cell_coord.col]:
             try:
-                i1: int = self.cell_objs_map[cell_coord.r][cell_coord.c].index(obj_id)
-                i2: int = self.cell_objs_map[cell_coord.r][cell_coord.c].index(obj_id - 1)
+                i1: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id
+                )
+                i2: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                    obj_id - 1
+                )
                 self.objects[i1], self.objects[i2] = self.objects[i2], self.objects[i1]
             except IndexError:
                 pass
@@ -113,7 +121,10 @@ class Grid:
             )
 
         for s in self.objects:
-            self.surf.blit(s.surf, (s.cell_coord.c, s.cell_coord.r))
+            self.surf.blit(
+                s.surf,
+                (self.cell2surf(s.cell_coord).col, self.cell2surf(s.cell_coord).row),
+            )
 
         return
 
@@ -121,7 +132,7 @@ class Grid:
         """
         Returns the IDs of objects which have parts in the cell, top-to-bottom
         """
-        ret = copy.copy(self.cell_objs_map[cell_coord.r][cell_coord.c])
+        ret = copy.copy(self.cell_objs_map[cell_coord.row][cell_coord.col])
         ret.reverse()
         return ret
 

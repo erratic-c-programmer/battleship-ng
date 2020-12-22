@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Coord:
-    c: int
-    r: int
+    col: int
+    row: int
+
 
 @dataclass
 class Size2d:
