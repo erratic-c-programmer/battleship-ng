@@ -106,3 +106,6 @@ class Grid:
         ret = copy.copy(self.cell_objs_map[cell[0]][cell[1]])
         ret.reverse()
         return ret
+
+    def get_surface(self):
+        return copy.copy(self.surf)
