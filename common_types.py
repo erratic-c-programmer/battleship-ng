@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Tuple
+import pygame as pg
+from typing import Tuple, Protocol
 
 
 @dataclass
@@ -12,6 +13,15 @@ class Coord:
 class Size2d:
     w: int
     h: int
+
+
+class GridObject(Protocol):
+    surface: pg.Surface
+    position: Coord
+    size: Size2d
+
+    def draw(self) -> None:
+        ...
 
 
 Color = Tuple[int, int, int]

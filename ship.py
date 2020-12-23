@@ -6,20 +6,20 @@ from common_types import Size2d, Coord, Color
 
 class Ship:
     """
-    A ship.
-    Lol
+    A ship. Lol
     """
 
     HOR = 0
     VER = 1
 
-    def __init__(self, size: Size2d, cell_size: Size2d, colour: Color, hitoverlay: pg.Surface) -> None:
+    def __init__(
+        self, size: Size2d, position: Coord, cell_size: Size2d, colour: Color
+    ) -> None:
         self.size = size
         self.cell_size = cell_size
-        self.colour = colour
-        self.hitoverlay = hitoverlay
+        self.position = position
 
-        self.surf: pg.Surface = pg.Surface(
+        self.surface: pg.Surface = pg.Surface(
             (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
         )
         self.hitmap: List[List[bool]] = [
@@ -44,7 +44,7 @@ class Ship:
 
     def draw(self) -> None:
         pg.draw.rect(
-            self.surf,
+            self.surface,
             self.colour,
             (
                 (0, 0),
@@ -53,4 +53,4 @@ class Ship:
         )
 
     def get_surface(self) -> pg.Surface:
-        return copy.copy(self.surf)
+        return copy.copy(self.surface)

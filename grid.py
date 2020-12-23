@@ -1,15 +1,7 @@
-from dataclasses import dataclass
 from typing import List
 import copy
 import pygame as pg
-from common_types import Coord, Size2d, Color
-
-
-@dataclass
-class GridObj:
-    surf: pg.Surface
-    cell_coord: Coord
-    box_size: Size2d
+from common_types import Coord, Size2d, Color, GridObject
 
 
 class Grid:
@@ -36,7 +28,7 @@ class Grid:
             self.grid_size.h * (self.cell_size.h + self.line_width) + self.line_width,
         )
 
-        self.objects: List[GridObj] = []
+        self.objects: List[GridObject] = []
         self.cell_objs_map: List[List[List[int]]] = []
         for i in range(grid_size.h):
             self.cell_objs_map.append([])
@@ -66,16 +58,16 @@ class Grid:
             surf_coord.row // self.cell_size.w,
         )
 
-    def add_obj(self, obj: GridObj) -> None:
+    def add_obj(self, obj: GridObject) -> None:
         self.objects.append(obj)
-        for i in range(obj.cell_coord.row, obj.cell_coord.row + obj.box_size.h):
-            for j in range(obj.cell_coord.col, obj.cell_coord.col + obj.box_size.w):
+        for i in range(obj.position.row, obj.position.row + obj.size.h):
+            for j in range(obj.position.col, obj.position.col + obj.size.w):
                 self.cell_objs_map[i][j].append(self.objcnt)
         self.objcnt += 1
         return
 
     def move_obj(self, obj_id: int, new_cell_coord: Coord) -> None:
-        self.objects[obj_id].cell_coord = self.cell2surf(new_cell_coord)
+        self.objects[obj_id].position = self.cell2surf(new_cell_coord)
         return
 
     def rearrange_obj_up(self, obj_id: int, cell_coord: Coord) -> None:
@@ -112,9 +104,10 @@ class Grid:
         self.surf.fill(self.fill_colour)
 
         for s in self.objects:
+            s.draw()
             self.surf.blit(
-                s.surf,
-                (self.cell2surf(s.cell_coord).col, self.cell2surf(s.cell_coord).row),
+                s.surface,
+                (self.cell2surf(s.position).col, self.cell2surf(s.position).row),
             )
 
         for i in range(0, self.total_size.w, self.cell_size.w + self.line_width):
@@ -134,8 +127,6 @@ class Grid:
                 (self.total_size.w, i),
                 self.line_width,
             )
-
-        return
 
     def get_cell_obj(self, cell_coord: Coord) -> List[int]:
         """
