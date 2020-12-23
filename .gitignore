@@ -1,4 +1,5 @@
-__pycache__
+__pycache__/
 gi_test*.py
 .python-version
-.vim
+.vim/
+.mypy_cache/
