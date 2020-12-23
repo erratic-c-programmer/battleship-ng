@@ -21,12 +21,9 @@ class Ship:
         self.surf: pg.Surface = pg.Surface(
             (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
         )
-        self.hitmap: List[List[bool]] = []
-        for i in range(self.cell_size.h):
-            self.hitmap.append([])
-            for j in range(self.cell_size.w):
-                self.hitmap[i].append(False)
-        return
+        self.hitmap: List[List[bool]] = [
+            [False for j in range(self.cell_size.w)] for i in range(self.cell_size.h)
+        ]
 
     def hit_tile(self, cell_coord: Coord) -> None:
         self.hitmap[cell_coord.row][cell_coord.col] = True
@@ -51,7 +48,6 @@ class Ship:
                 (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h),
             ),
         )
-        return
 
     def get_surface(self) -> pg.Surface:
         return copy.copy(self.surf)
