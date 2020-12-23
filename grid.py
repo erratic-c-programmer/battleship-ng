@@ -43,8 +43,8 @@ class Grid:
         Converts cell coordinates to surface coordinates
         """
         ret: Coord = Coord(
-            (self.line_width + cell_coord.y * (self.cell_size.x + self.line_width)),
-            (self.line_width + cell_coord.x * (self.cell_size.y + self.line_width)),
+            (self.line_width + cell_coord.x * (self.cell_size.x + self.line_width)),
+            (self.line_width + cell_coord.y * (self.cell_size.y + self.line_width)),
         )
         return ret
 
@@ -54,8 +54,8 @@ class Grid:
         """
 
         return Coord(
-            surf_coord.x // self.cell_size.y,
-            surf_coord.y // self.cell_size.x,
+            surf_coord.x // self.cell_size.x,
+            surf_coord.y // self.cell_size.y,
         )
 
     def add_obj(self, obj: GridObject) -> None:

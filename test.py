@@ -30,7 +30,7 @@ mygrid.add_obj(myship)
 
 myship2 = ship.Ship(
     size=Size2d(1, 4),
-    position=Coord(5, 7),
+    position=Coord(5, 6),
     cell_size=Size2d(51, 51),
     colour=(30, 170, 80),
 )
