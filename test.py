@@ -30,12 +30,12 @@ mygrid.add_obj(myship)
 
 myship2 = ship.Ship(
     size=Size2d(1, 4),
-    position=Coord(5, 0),
+    position=Coord(5, 7),
     cell_size=Size2d(51, 51),
     colour=(30, 170, 80),
 )
 myship2.draw()
-mygrid.add_obj(myship)
+mygrid.add_obj(myship2)
 
 for i in range(10):
     for j in range(10):
