@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List
 import copy
 import pygame as pg
-from common_types import Coord, Size2d
+from common_types import Coord, Size2d, Color
 
 
 @dataclass
@@ -18,14 +18,14 @@ class Grid:
         grid_size: Size2d,
         cell_size: Size2d,
         line_width: int,
-        line_colour: Tuple[int, int, int],
-        fill_colour: Tuple[int, int, int],
+        line_colour: Color,
+        fill_colour: Color,
     ) -> None:
         self.grid_size: Size2d = grid_size
         self.cell_size: Size2d = cell_size
         self.line_width: int = line_width
-        self.line_colour: Tuple[int, int, int] = line_colour
-        self.fill_colour: Tuple[int, int, int] = fill_colour
+        self.line_colour: Color = line_colour
+        self.fill_colour: Color = fill_colour
 
         self.objcnt: int = (
             0  # No. of objects in the grid, also acts as ID==index for next obj
