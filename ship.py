@@ -22,7 +22,7 @@ class Ship:
             (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
         )
         self.hitmap: List[List[bool]] = [
-            [False for j in range(self.cell_size.w)] for i in range(self.cell_size.h)
+            [False for _ in range(self.cell_size.w)] for _ in range(self.cell_size.h)
         ]
 
     def hit_tile(self, cell_coord: Coord) -> None:
