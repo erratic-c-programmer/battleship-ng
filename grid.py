@@ -59,29 +59,12 @@ class Grid:
     def surf2cell(self, surf_coord: Coord) -> Coord:
         """
         Converts real coordinates to cell coordinates
-        TODO: optimise this maybe?
         """
-        ret: Coord = Coord(0, 0)
-        cellcol: int = -1
-        cellrow: int = -1
 
-        for i in range(
-            self.line_width, self.total_size.w, self.cell_size.w + self.line_width
-        ):
-            cellcol += 1
-            if surf_coord.col >= i and surf_coord.col <= i + self.cell_size.w:
-                ret.col = cellcol
-                break
-
-        for i in range(
-            self.line_width, self.total_size.h, self.cell_size.h + self.line_width
-        ):
-            cellrow += 1
-            if surf_coord.row >= i and surf_coord.row <= i + self.cell_size.h:
-                ret.row = cellrow
-                break
-
-        return ret
+        return Coord(
+            surf_coord.col // self.cell_size.h,
+            surf_coord.row // self.cell_size.w,
+        )
 
     def add_obj(self, obj: GridObj) -> None:
         self.objects.append(obj)
