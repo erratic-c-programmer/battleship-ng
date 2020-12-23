@@ -25,13 +25,13 @@ rectsurf = pg.Surface((152, 152))
 pg.draw.rect(rectsurf, (0, 255, 255), ((0, 0), (152, 152)))
 mygrid.add_obj(grid.GridObj(rectsurf, Coord(1, 1), Size2d(3, 3)))
 
-#  myship = ship.Ship(Size2d(3, 1), Size2d(51, 51), (60, 70, 80))
-#  myship.draw()
-#  mygrid.add_obj(grid.GridObj(myship.get_surface(), Coord(4, 4), Size2d(3, 1)))
+ myship = ship.Ship(Size2d(3, 1), Size2d(51, 51), (60, 70, 80))
+ myship.draw()
+ mygrid.add_obj(grid.GridObj(myship.get_surface(), Coord(4, 4), Size2d(3, 1)))
 
-#  myship2 = ship.Ship(Size2d(1, 4), Size2d(51, 51), (30, 170, 80))
-#  myship2.draw()
-#  mygrid.add_obj(grid.GridObj(myship2.get_surface(), Coord(5, 3), Size2d(1, 4)))
+ myship2 = ship.Ship(Size2d(1, 4), Size2d(51, 51), (30, 170, 80))
+ myship2.draw()
+ mygrid.add_obj(grid.GridObj(myship2.get_surface(), Coord(5, 3), Size2d(1, 4)))
 
 for i in range(10):
     for j in range(10):
