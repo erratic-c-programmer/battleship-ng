@@ -73,9 +73,7 @@ class Grid:
     def rearrange_obj_up(self, obj_id: int, cell_coord: Coord) -> None:
         if obj_id in self.cell_objs_map[cell_coord.y][cell_coord.x]:
             try:
-                i1: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
-                    obj_id
-                )
+                i1: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(obj_id)
                 i2: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
                     obj_id + 1
                 )
@@ -88,9 +86,7 @@ class Grid:
     def rearrange_obj_down(self, obj_id: int, cell_coord: Coord) -> None:
         if obj_id in self.cell_objs_map[cell_coord.y][cell_coord.x]:
             try:
-                i1: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
-                    obj_id
-                )
+                i1: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(obj_id)
                 i2: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
                     obj_id - 1
                 )
