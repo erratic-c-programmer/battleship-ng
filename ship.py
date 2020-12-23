@@ -21,23 +21,23 @@ class Ship:
         self.colour = colour
 
         self.surface: pg.Surface = pg.Surface(
-            (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
+            (self.size.x * self.cell_size.x, self.size.y * self.cell_size.y)
         )
         self.hitmap: List[List[bool]] = [
-            [False for _ in range(self.cell_size.w)] for _ in range(self.cell_size.h)
+            [False for _ in range(self.cell_size.x)] for _ in range(self.cell_size.y)
         ]
 
     def hit_tile(self, cell_coord: Coord) -> None:
-        self.hitmap[cell_coord.row][cell_coord.col] = True
+        self.hitmap[cell_coord.y][cell_coord.x] = True
         return
 
     def is_tile_hit_p(self, cell_coord: Coord) -> bool:
-        return self.hitmap[cell_coord.row][cell_coord.col]
+        return self.hitmap[cell_coord.y][cell_coord.x]
 
     def is_ship_sunk_p(self) -> bool:
         ret: bool = True
-        for i in range(self.cell_size.h):
-            for j in range(self.cell_size.w):
+        for i in range(self.cell_size.y):
+            for j in range(self.cell_size.x):
                 ret &= self.hitmap[i][j]
 
         return ret
@@ -48,7 +48,7 @@ class Ship:
             self.colour,
             (
                 (0, 0),
-                (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h),
+                (self.size.x * self.cell_size.x, self.size.y * self.cell_size.y),
             ),
         )
 

@@ -24,18 +24,18 @@ class Grid:
         )
 
         self.total_size: Size2d = Size2d(
-            self.grid_size.w * (self.cell_size.w + self.line_width) + self.line_width,
-            self.grid_size.h * (self.cell_size.h + self.line_width) + self.line_width,
+            self.grid_size.x * (self.cell_size.x + self.line_width) + self.line_width,
+            self.grid_size.y * (self.cell_size.y + self.line_width) + self.line_width,
         )
 
         self.objects: List[GridObject] = []
         self.cell_objs_map: List[List[List[int]]] = []
-        for i in range(grid_size.h):
+        for i in range(grid_size.y):
             self.cell_objs_map.append([])
-            for _ in range(grid_size.w):
+            for _ in range(grid_size.x):
                 self.cell_objs_map[i].append([])
 
-        self.surf = pg.Surface((self.total_size.w, self.total_size.h))
+        self.surf = pg.Surface((self.total_size.x, self.total_size.y))
         return
 
     def cell2surf(self, cell_coord: Coord) -> Coord:
@@ -43,8 +43,8 @@ class Grid:
         Converts cell coordinates to surface coordinates
         """
         ret: Coord = Coord(
-            (self.line_width + cell_coord.row * (self.cell_size.h + self.line_width)),
-            (self.line_width + cell_coord.col * (self.cell_size.w + self.line_width)),
+            (self.line_width + cell_coord.y * (self.cell_size.x + self.line_width)),
+            (self.line_width + cell_coord.x * (self.cell_size.y + self.line_width)),
         )
         return ret
 
@@ -54,14 +54,14 @@ class Grid:
         """
 
         return Coord(
-            surf_coord.col // self.cell_size.h,
-            surf_coord.row // self.cell_size.w,
+            surf_coord.x // self.cell_size.y,
+            surf_coord.y // self.cell_size.x,
         )
 
     def add_obj(self, obj: GridObject) -> None:
         self.objects.append(obj)
-        for i in range(obj.position.row, obj.position.row + obj.size.h):
-            for j in range(obj.position.col, obj.position.col + obj.size.w):
+        for i in range(obj.position.y, obj.position.y + obj.size.y - 1):
+            for j in range(obj.position.x, obj.position.x + obj.size.x - 1):
                 self.cell_objs_map[i][j].append(self.objcnt)
         self.objcnt += 1
         return
@@ -71,12 +71,12 @@ class Grid:
         return
 
     def rearrange_obj_up(self, obj_id: int, cell_coord: Coord) -> None:
-        if obj_id in self.cell_objs_map[cell_coord.row][cell_coord.col]:
+        if obj_id in self.cell_objs_map[cell_coord.y][cell_coord.x]:
             try:
-                i1: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                i1: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
                     obj_id
                 )
-                i2: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                i2: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
                     obj_id + 1
                 )
                 self.objects[i1], self.objects[i2] = self.objects[i2], self.objects[i1]
@@ -86,12 +86,12 @@ class Grid:
         return
 
     def rearrange_obj_down(self, obj_id: int, cell_coord: Coord) -> None:
-        if obj_id in self.cell_objs_map[cell_coord.row][cell_coord.col]:
+        if obj_id in self.cell_objs_map[cell_coord.y][cell_coord.x]:
             try:
-                i1: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                i1: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
                     obj_id
                 )
-                i2: int = self.cell_objs_map[cell_coord.row][cell_coord.col].index(
+                i2: int = self.cell_objs_map[cell_coord.y][cell_coord.x].index(
                     obj_id - 1
                 )
                 self.objects[i1], self.objects[i2] = self.objects[i2], self.objects[i1]
@@ -107,24 +107,24 @@ class Grid:
             s.draw()
             self.surf.blit(
                 s.surface,
-                (self.cell2surf(s.position).col, self.cell2surf(s.position).row),
+                (self.cell2surf(s.position).x, self.cell2surf(s.position).y),
             )
 
-        for i in range(0, self.total_size.w, self.cell_size.w + self.line_width):
+        for i in range(0, self.total_size.x, self.cell_size.x + self.line_width):
             pg.draw.line(
                 self.surf,
                 self.line_colour,
                 (i, 0),
-                (i, self.total_size.h),
+                (i, self.total_size.y),
                 self.line_width,
             )
 
-        for i in range(0, self.total_size.h, self.cell_size.h + self.line_width):
+        for i in range(0, self.total_size.y, self.cell_size.y + self.line_width):
             pg.draw.line(
                 self.surf,
                 self.line_colour,
                 (0, i),
-                (self.total_size.w, i),
+                (self.total_size.x, i),
                 self.line_width,
             )
 
@@ -132,7 +132,7 @@ class Grid:
         """
         Returns the IDs of objects which have parts in the cell, top-to-bottom
         """
-        ret = copy.copy(self.cell_objs_map[cell_coord.row][cell_coord.col])
+        ret = copy.copy(self.cell_objs_map[cell_coord.y][cell_coord.x])
         ret.reverse()
         return ret
 

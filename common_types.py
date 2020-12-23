@@ -5,14 +5,14 @@ from typing import Tuple, Protocol
 
 @dataclass
 class Coord:
-    col: int
-    row: int
+    x: int
+    y: int
 
 
 @dataclass
 class Size2d:
-    w: int
-    h: int
+    x: int
+    y: int
 
 
 class GridObject(Protocol):
