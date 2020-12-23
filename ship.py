@@ -18,6 +18,7 @@ class Ship:
         self.size = size
         self.cell_size = cell_size
         self.position = position
+        self.colour = colour
 
         self.surface: pg.Surface = pg.Surface(
             (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
@@ -28,7 +29,6 @@ class Ship:
 
     def hit_tile(self, cell_coord: Coord) -> None:
         self.hitmap[cell_coord.row][cell_coord.col] = True
-        self.surf.blit(self.hitoverlay, (cell_coord.col * self.cell_size.w, cell_coord.row * self.cell_size.h))
         return
 
     def is_tile_hit_p(self, cell_coord: Coord) -> bool:
