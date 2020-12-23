@@ -85,7 +85,7 @@ class Grid:
     def add_obj(self, obj: GridObj) -> None:
         self.objects.append(obj)
         for i in range(obj.cell_coord.row, obj.cell_coord.row + obj.box_size.h):
-            for j in range(obj.cell_coord.col, obj.cell_coord.row + obj.box_size.w):
+            for j in range(obj.cell_coord.col, obj.cell_coord.col + obj.box_size.w):
                 self.cell_objs_map[i][j].append(self.objcnt)
         self.objcnt += 1
         return
