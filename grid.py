@@ -127,6 +127,12 @@ class Grid:
     def draw(self) -> None:
         self.surf.fill(self.fill_colour)
 
+        for s in self.objects:
+            self.surf.blit(
+                s.surf,
+                (self.cell2surf(s.cell_coord).col, self.cell2surf(s.cell_coord).row),
+            )
+
         for i in range(0, self.total_size.w, self.cell_size.w + self.line_width):
             pg.draw.line(
                 self.surf,
@@ -143,12 +149,6 @@ class Grid:
                 (0, i),
                 (self.total_size.w, i),
                 self.line_width,
-            )
-
-        for s in self.objects:
-            self.surf.blit(
-                s.surf,
-                (self.cell2surf(s.cell_coord).col, self.cell2surf(s.cell_coord).row),
             )
 
         return
