@@ -13,10 +13,11 @@ class Ship:
     HOR = 0
     VER = 1
 
-    def __init__(self, size: Size2d, cell_size: Size2d, colour: Color) -> None:
+    def __init__(self, size: Size2d, cell_size: Size2d, colour: Color, hitoverlay: pg.Surface) -> None:
         self.size = size
-        self.colour = colour
         self.cell_size = cell_size
+        self.colour = colour
+        self.hitoverlay = hitoverlay
 
         self.surf: pg.Surface = pg.Surface(
             (self.size.w * self.cell_size.w, self.size.h * self.cell_size.h)
@@ -27,6 +28,8 @@ class Ship:
 
     def hit_tile(self, cell_coord: Coord) -> None:
         self.hitmap[cell_coord.row][cell_coord.col] = True
+        self.surf.blit(self.hitoverlay, (cell_coord.col * self.cell_size.w, cell_coord.row * self.cell_size.h))
+        return
 
     def is_tile_hit_p(self, cell_coord: Coord) -> bool:
         return self.hitmap[cell_coord.row][cell_coord.col]
