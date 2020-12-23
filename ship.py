@@ -1,8 +1,7 @@
 import copy as copy
 import pygame as pg
-from typing import Tuple, List
-
-from common_types import *
+from typing import List
+from common_types import Size2d, Coord, Color
 
 
 class Ship:
@@ -14,9 +13,7 @@ class Ship:
     HOR = 0
     VER = 1
 
-    def __init__(
-        self, size: Size2d, cell_size: Size2d, colour: Tuple[int, int, int]
-    ) -> None:
+    def __init__(self, size: Size2d, cell_size: Size2d, colour: Color) -> None:
         self.size = size
         self.colour = colour
         self.cell_size = cell_size

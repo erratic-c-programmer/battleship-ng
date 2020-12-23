@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Tuple
 
 
 @dataclass
@@ -11,3 +12,6 @@ class Coord:
 class Size2d:
     w: int
     h: int
+
+
+Color = Tuple[int, int, int]

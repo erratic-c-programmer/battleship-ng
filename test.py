@@ -2,8 +2,7 @@
 
 import grid
 import pygame as pg
-
-from common_types import *
+from common_types import Size2d, Coord
 import ship
 
 

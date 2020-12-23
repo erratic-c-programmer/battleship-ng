@@ -2,8 +2,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 import copy
 import pygame as pg
-
-from common_types import *
+from common_types import Coord, Size2d
 
 
 @dataclass
@@ -47,7 +46,6 @@ class Grid:
         self.surf = pg.Surface((self.total_size.w, self.total_size.h))
         return
 
-
     def cell2surf(self, cell_coord: Coord) -> Coord:
         """
         Converts cell coordinates to surface coordinates
@@ -67,20 +65,23 @@ class Grid:
         cellcol: int = -1
         cellrow: int = -1
 
-        for i in range(self.line_width, self.total_size.w, self.cell_size.w + self.line_width):
+        for i in range(
+            self.line_width, self.total_size.w, self.cell_size.w + self.line_width
+        ):
             cellcol += 1
             if surf_coord.col >= i and surf_coord.col <= i + self.cell_size.w:
                 ret.col = cellcol
                 break
 
-        for i in range(self.line_width, self.total_size.h, self.cell_size.h + self.line_width):
+        for i in range(
+            self.line_width, self.total_size.h, self.cell_size.h + self.line_width
+        ):
             cellrow += 1
             if surf_coord.row >= i and surf_coord.row <= i + self.cell_size.h:
                 ret.row = cellrow
                 break
 
         return ret
-
 
     def add_obj(self, obj: GridObj) -> None:
         self.objects.append(obj)
