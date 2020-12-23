@@ -9,10 +9,7 @@ class Coord:
     y: int
 
 
-@dataclass
-class Size2d:
-    x: int
-    y: int
+Size2d = Coord
 
 
 class GridObject(Protocol):
