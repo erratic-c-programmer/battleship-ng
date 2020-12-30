@@ -1,6 +1,7 @@
 import copy as copy
 import pygame as pg
 from typing import List
+
 from common_types import Size2d, Coord, Color
 
 
@@ -28,6 +29,10 @@ class Ship:
         ]
 
     def hit_tile(self, cell_coord: Coord) -> None:
+        self.hitmap[cell_coord.y][cell_coord.x] = True
+        return
+
+    def hit_tile_realpos(self, cell_coord: Coord) -> None:
         self.hitmap[cell_coord.y][cell_coord.x] = True
         return
 
